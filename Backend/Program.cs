@@ -2,7 +2,7 @@ using UniversityLibrary.Backend.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string? connectionString = Environment.GetEnvironmentVariable("MYSQL_CONNECTION_STRING");
+string? connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
 
 if (string.IsNullOrEmpty(connectionString))
 {
@@ -24,15 +24,12 @@ var app = builder.Build();
 
 
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
-app.MapControllers();
 app.UseCors();
+app.MapControllers();
 app.Run();
 
 
