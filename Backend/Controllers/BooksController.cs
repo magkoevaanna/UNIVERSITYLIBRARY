@@ -15,10 +15,18 @@ public class BooksController : ControllerBase
         this.bookRepository = bookRepository;
     }
     
-    [HttpGet("GetBooks")]// перечень всех книг
+    [HttpGet("Список всех книг")]// перечень всех книг
     public IActionResult GetBooks()
     {
         var result = bookRepository.GetBooks();
+        return Ok(result);
+    }
+
+
+    [HttpGet("ЗАПРОС 2. Список двадцати популярных книг")]// Запрос 2
+    public IActionResult GetTopTwentyBooks([FromQuery] int DistributionPointId = 1, string faculty = "ЭФ")
+    {
+        var result = bookRepository.GetTopTwentyBooks(DistributionPointId, faculty);
         return Ok(result);
     }
 }

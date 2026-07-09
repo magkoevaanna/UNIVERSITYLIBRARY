@@ -3,13 +3,9 @@
 Система для управления университетской библиотекой.
 
 
-## 2) Настройка соединения с базой данных
-* Настроена строка подключения в appsettings.json для связи с clever-cloud.com
-* Установлена библиотеки MySql
-* Создание модели Books, интерфейса IBookRepository.cs и класса BookRepository.cs
-* Создание контроллера BooksController.cs
+## Создание ветки book
 
-### Установка библиотеки MySql
-```bash
-    dotnet add package MySql.Data
-```
+* Созданы MySQL-запросы для вывода книг.
+* Создана папка Repositories с интерфейсом IBookRepository и классом BookRepository.
+* Создана папка DTO/Books с моделями передачи данных.
+* Создан контроллер BooksController для обработки запросов.
