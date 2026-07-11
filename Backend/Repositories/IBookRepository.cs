@@ -8,4 +8,5 @@ public interface IBookRepository
 {
     List<Books> GetBooks();
     List<TopTwentyBooks> GetTopTwentyBooks(int DistributionPointId, string faculty);
+    BooksByDistributionPointDto GetBooksByDistributionPoint(int DistributionPointId);
 }

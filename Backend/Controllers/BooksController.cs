@@ -29,4 +29,11 @@ public class BooksController : ControllerBase
         var result = bookRepository.GetTopTwentyBooks(DistributionPointId, faculty);
         return Ok(result);
     }
+
+    [HttpGet("ЗАПРОС 3. Количество экземпляров книги для данного читального зала и общее количество книг в зале")]// Запрос 3
+    public IActionResult GetBooksByDistributionPoint([FromQuery] int DistributionPointId = 1)
+    {
+        var result = bookRepository.GetBooksByDistributionPoint(DistributionPointId);
+        return Ok(result);
+    }
 }

@@ -32,7 +32,7 @@ public class BookRepository : IBookRepository
                     {
                         var list = new Books()
                         {
-                            BookId =    Convert.ToInt32(reader["book_id"]),
+                            BookId = Convert.ToInt32(reader["book_id"]),
                             ISBN = reader["isbn"].ToString()!,
                             Title = reader["title"].ToString()!,
                             Author = reader["author"].ToString()!,
@@ -95,6 +95,50 @@ public class BookRepository : IBookRepository
             }
         }
         return books;
+    }
+
+
+
+
+
+    public BooksByDistributionPointDto GetBooksByDistributionPoint(int DistributionPointId) // Запрос 3
+    {
+        var result = new BooksByDistributionPointDto();
+        string sql = @"SELECT 
+                        b.title,
+                        b.author,
+                        COUNT(bi.inventory_id) AS copies_in_hall,
+                        SUM(COUNT(bi.inventory_id)) OVER() AS total_books_in_hall
+                    FROM book_inventories bi
+                    JOIN books b ON bi.book_id = b.book_id
+                    WHERE bi.distribution_point_id = @DistributionPointId
+                    GROUP BY b.book_id, b.title, b.author;";
+
+        using (var connection = new MySqlConnection(ConnectionString))
+        {
+            connection.Open();
+
+            using (var command = new MySqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@DistributionPointId", DistributionPointId);
+                using (var reader = command.ExecuteReader())
+                {                    
+                    while (reader.Read())
+                    {
+                       var book = new BookInHallDto()
+                        {
+                            Title = reader["title"].ToString()!,
+                            Author = reader["author"].ToString()!,
+                            CopiesInHall = Convert.ToInt32(reader["copies_in_hall"])
+
+                        };
+                        result.Books.Add(book);
+                        result.TotalBooksInHall = Convert.ToInt32(reader["total_books_in_hall"]);
+                    }
+                }
+            }
+        }
+        return result;
     }
 
 
