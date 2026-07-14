@@ -15,6 +15,7 @@ builder.Services.AddControllers();
 
 
 builder.Services.AddSingleton<IBookRepository>(new BookRepository(connectionString));
+builder.Services.AddSingleton<IMemberRepository>(new MemberRepository(connectionString));
 
 builder.Services.AddCors(options => {
     options.AddDefaultPolicy(policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
