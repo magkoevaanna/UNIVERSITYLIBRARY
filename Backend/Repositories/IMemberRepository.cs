@@ -9,4 +9,6 @@ public interface IMemberRepository
 {
     List<Members> GetMembers();
     MemberListDto GetMembersByDistributionPoint(int pointId, int course);
+    List<MemberFineReportDto> GetMemberByName(string name);
+
 }

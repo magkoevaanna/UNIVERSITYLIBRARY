@@ -29,5 +29,12 @@ public class MembersController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("Вывести всю информацию о пользователе по фамилии")]
+    public IActionResult GetMemberByName([FromQuery] string name = "Иванов")
+    {
+        var result = memberRepository.GetMemberByName(name);
+        return Ok(result);
+    }
+
 
 }
