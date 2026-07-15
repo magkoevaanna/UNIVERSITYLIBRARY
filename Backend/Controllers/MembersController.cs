@@ -22,5 +22,12 @@ public class MembersController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("Список пользователей по пункту выдачи и курсу.")]
+    public IActionResult GetMembersByDistributionPoint([FromQuery] int pointId = 1, int course = 2)
+    {
+        var result = memberRepository.GetMembersByDistributionPoint(pointId, course);
+        return Ok(result);
+    }
+
 
 }
