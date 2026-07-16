@@ -7,4 +7,5 @@ namespace UniversityLibrary.Backend.Repositories;
 public interface IStatisticsRepository
 {
     ActiveDebtorsDto GetActiveDebtors(int pointId);
+    OrderReportResponse GetReservedBooksReport();
 }

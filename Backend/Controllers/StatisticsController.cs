@@ -20,4 +20,11 @@ public class StatisticsController : ControllerBase
         var result = StatisticsRepository.GetActiveDebtors(pointId);
         return Ok(result);
     }
+
+    [HttpGet("Список всех заказанных книг.")]
+    public IActionResult GetReservedBooksReport()
+    {
+        var result = StatisticsRepository.GetReservedBooksReport();
+        return Ok(result);
+    }
 }

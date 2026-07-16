@@ -74,4 +74,47 @@ public class StatisticsRepository : IStatisticsRepository
     }
 
 
+
+    public OrderReportResponse GetReservedBooksReport()
+    {
+        var result = new OrderReportResponse();
+        string sql = @"SELECT 
+                        b.title,
+                        b.author,
+                        rl.action_date,
+                        COUNT(*) OVER() AS `total_orders`
+                    FROM reader_logs rl
+                    JOIN book_inventories bi ON rl.book_inventory_id = bi.inventory_id
+                    JOIN books b ON bi.book_id = b.book_id
+                    WHERE rl.action_status = 'reserved';";
+        
+        using(var connection = new MySqlConnection(ConnectionString))
+        {
+            connection.Open();
+
+            using(var command = new MySqlCommand(sql, connection))
+            {
+
+                using(var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var list = new OrderReportItem()
+                        {
+                            Title = reader["title"].ToString()!,
+                            Author = reader["author"].ToString()!,
+                            ActionDate = Convert.ToDateTime(reader["action_date"])
+                        };
+                        result.TotalOrders = Convert.ToInt32(reader["total_orders"]);
+                        result.Items.Add(list);
+                    }
+                }
+
+            }
+        }
+        return result;
+    }
+
+
+
 }
