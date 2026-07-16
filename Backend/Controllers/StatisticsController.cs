@@ -1,0 +1,23 @@
+using Microsoft.AspNetCore.Mvc;
+using UniversityLibrary.Backend.Repositories;
+
+namespace UniversityLibrary.Backend.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class StatisticsController : ControllerBase
+{
+    private readonly IStatisticsRepository StatisticsRepository;
+
+    public StatisticsController(IStatisticsRepository StatisticsRepository)
+    {
+        this.StatisticsRepository = StatisticsRepository;
+    }
+
+    [HttpGet("Список всех читателей-задолжников.")]
+    public IActionResult GetActiveDebtors([FromQuery] int pointId = 1)
+    {
+        var result = StatisticsRepository.GetActiveDebtors(pointId);
+        return Ok(result);
+    }
+}
