@@ -117,4 +117,47 @@ public class StatisticsRepository : IStatisticsRepository
 
 
 
+    public HallInventoryReportResponseDto GetBooksDistributionByHall(int pointId)
+    {
+        var result = new HallInventoryReportResponseDto();
+        string sql = @"SELECT 
+                        b.title,
+                        b.author,
+                        COUNT(bi.inventory_id) AS сopies_сount,
+                        SUM(COUNT(bi.inventory_id)) OVER() AS total_books
+                    FROM book_inventories bi
+                    JOIN books b ON bi.book_id = b.book_id
+                    WHERE bi.distribution_point_id = @pointId
+                    GROUP BY b.book_id, b.title, b.author;";
+        
+        using(var connection = new MySqlConnection(ConnectionString))
+        {
+            connection.Open();
+
+            using(var command = new MySqlCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@pointId", pointId);
+
+                using(var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var list = new HallInventoryItem()
+                        {
+                            Title = reader["title"].ToString()!,
+                            Author = reader["author"].ToString()!,
+                            CopiesCount = Convert.ToInt32(reader["сopies_сount"])
+                        };
+                        result.TotalBooksInHall = Convert.ToInt32(reader["total_books"]);
+                        result.Items.Add(list);
+                    }
+                }
+
+            }
+        }
+        return result;
+    }
+
+
+
 }

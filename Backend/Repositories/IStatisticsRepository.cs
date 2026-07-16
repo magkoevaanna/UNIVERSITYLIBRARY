@@ -8,4 +8,5 @@ public interface IStatisticsRepository
 {
     ActiveDebtorsDto GetActiveDebtors(int pointId);
     OrderReportResponse GetReservedBooksReport();
+    HallInventoryReportResponseDto GetBooksDistributionByHall(int pointId);
 }

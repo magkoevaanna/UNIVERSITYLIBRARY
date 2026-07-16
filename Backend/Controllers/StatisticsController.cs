@@ -27,4 +27,11 @@ public class StatisticsController : ControllerBase
         var result = StatisticsRepository.GetReservedBooksReport();
         return Ok(result);
     }
+
+    [HttpGet("Список книг и колличества их экземпляров по пунктам выдачи.")]
+    public IActionResult GetBooksDistributionByHall([FromQuery] int pointId = 1)
+    {
+        var result = StatisticsRepository.GetBooksDistributionByHall(pointId);
+        return Ok(result);
+    }
 }
